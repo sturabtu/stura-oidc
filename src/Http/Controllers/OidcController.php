@@ -10,10 +10,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
 use LightSaml\Error\LightSamlException;
 use StuRaBtu\Oidc\Driver\Oidc;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
+use Throwable;
 
 class OidcController
 {
@@ -49,8 +51,12 @@ class OidcController
 
             Cookie::queue('is_authenticated', true, 30 * 24 * 60);
 
-            return Redirect::route('dashboard');
-        } catch (LightSamlException) {
+            if (Route::has('dashboard')) {
+                return Redirect::intended(route('dashboard'));
+            }
+
+            return Redirect::intended('/');
+        } catch (Throwable) {
             return view('oidc::error');
         }
     }
