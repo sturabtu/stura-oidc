@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use LightSaml\Error\LightSamlException;
 use StuRaBtu\Oidc\Driver\Oidc;
-use StuRaBtu\Oidc\Driver\Oidc;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 
 class OidcController
