@@ -1,0 +1,37 @@
+{
+    "name": "sturabtu/stura-oidc",
+    "type": "library",
+    "description": "The oidc service provider package for stura services",
+    "keywords": ["stura", "oidc"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Julius Kiekbusch",
+            "email": "contact@julius-kiekbusch.de"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "laravel/framework": "^11.46.1 || ^12.33",
+        "laravel/socialite": "^5.23.0",
+        "kovah/laravel-socialite-oidc": "^0.5.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.7.2",
+        "laravel/pint": "^1.25.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "StuRaBtu\\Oidc\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "StuRaBtu\\Oidc\\OidcServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
