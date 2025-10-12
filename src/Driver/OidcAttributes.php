@@ -33,6 +33,7 @@ class OidcAttributes
         return [
             'btu_id' => $this->asBtuIdentifier('preferred_username'),
             'name' => $this->asString('name'),
+            'email' => $this->asString('email'),
             'groups' => $this->asArray('groups'),
         ];
     }
