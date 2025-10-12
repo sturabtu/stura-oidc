@@ -32,7 +32,11 @@ class OidcController
 
             Cookie::queue('is_authenticated', true, 30 * 24 * 60);
 
-            return Redirect::route('dashboard');
+            if (Route::has('dashboard')) {
+                return Redirect::intended(route('dashboard'));
+            }
+
+            return Redirect::intended('/');
         }
 
         return Oidc::redirectToIdentityProvider();
