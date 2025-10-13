@@ -60,7 +60,10 @@ class OidcController
             }
 
             return Redirect::intended('/');
-        } catch (Throwable) {
+        } catch (Throwable $e) {
+
+            throw_if(App::isLocal(), $e);
+
             return view('oidc::error');
         }
     }
