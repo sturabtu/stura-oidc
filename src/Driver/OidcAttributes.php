@@ -34,7 +34,8 @@ class OidcAttributes
             'btu_id' => $this->asBtuIdentifier('preferred_username'),
             'name' => $this->asString('name'),
             'email' => $this->asString('email'),
-            'groups' => $this->asArray('groups'),
+            'groups' => $groups = $this->asGroups('groups'),
+            'is_admin' => in_array('Admin', $groups),
         ];
     }
 
@@ -82,5 +83,20 @@ class OidcAttributes
         }
 
         return Str::before($value, self::BTU_ID_SUFFIX);
+    }
+
+    public function asGroups(string $attribute): array
+    {
+        $value = $this->asArray($attribute);
+
+        if ($value === null || ! is_array($value) || count($value) === 0) {
+            return [];
+        }
+
+        return collect($value)
+            ->map(fn(string $group): array => mb_split('/', trim($group, '/')))
+            ->flatten()
+            ->values()
+            ->all();
     }
 }
