@@ -24,21 +24,6 @@ class OidcController
      */
     public function redirect(Request $request): RedirectResponse|SymfonyRedirectResponse
     {
-        if (! App::isProduction()) {
-            $user = User::where('email', 'test@example.com')->first();
-
-            Auth::login($user, remember: false);
-            $request->session()->regenerate();
-
-            Cookie::queue('is_authenticated', true, 30 * 24 * 60);
-
-            if (Route::has('dashboard')) {
-                return Redirect::intended(route('dashboard'));
-            }
-
-            return Redirect::intended('/');
-        }
-
         return Oidc::redirectToIdentityProvider();
     }
 
