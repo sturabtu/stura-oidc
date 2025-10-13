@@ -15,6 +15,6 @@ return [
     // Optional: Provide a specific public key for JWT verification
     // If not provided, the key will be fetched from the OIDC provider's JWKS endpoint
     'jwt_public_key' => env('OIDC_JWT_PUBLIC_KEY'),
-    s,
+
     // 'scopes' => 'groups roles',
 ];
