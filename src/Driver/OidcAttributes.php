@@ -35,6 +35,7 @@ class OidcAttributes
             'name' => $this->asString('name'),
             'email' => $this->asString('email'),
             'groups' => $groups = $this->asGroups('groups'),
+            'roles' => $this->asArray('roles') ?? [],
             'is_admin' => in_array('Admin', $groups),
         ];
     }
@@ -85,6 +86,11 @@ class OidcAttributes
         return Str::before($value, self::BTU_ID_SUFFIX);
     }
 
+    /**
+     * Converts all groups and parent groups into a flatten array of groups
+     * 
+     * @return string[]
+     */
     public function asGroups(string $attribute): array
     {
         $value = $this->asArray($attribute);
