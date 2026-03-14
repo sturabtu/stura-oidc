@@ -2,10 +2,8 @@
 
 namespace StuRaBtu\Oidc\Driver;
 
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-use LightSaml\Model\Assertion\Attribute;
 
 class OidcAttributes
 {
@@ -36,7 +34,7 @@ class OidcAttributes
             'email' => $this->asString('email'),
             'groups' => $groups = $this->asGroups('groups'),
             'roles' => $this->asArray('roles') ?? [],
-            'is_admin' => in_array('Admin', $groups),
+            'is_admin' => in_array(config('oidc.admin_group', 'Admin'), $groups),
         ];
     }
 

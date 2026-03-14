@@ -2,17 +2,14 @@
 
 namespace StuRaBtu\Oidc\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
-use LightSaml\Error\LightSamlException;
 use StuRaBtu\Oidc\Driver\Oidc;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
 use Throwable;
@@ -38,7 +35,13 @@ class OidcController
             Auth::login($user, remember: false);
             $request->session()->regenerate();
 
-            Cookie::queue('is_authenticated', true, 30 * 24 * 60);
+            // Store the id_token for use during Single Logout.
+            if ($idToken = Oidc::idToken()) {
+                $request->session()->put('oidc_id_token', $idToken);
+            }
+
+            // HttpOnly prevents JavaScript from reading this cookie.
+            Cookie::queue('is_authenticated', true, 30 * 24 * 60, httpOnly: true);
 
             if (Route::has('dashboard')) {
                 return Redirect::intended(route('dashboard'));
