@@ -3,22 +3,30 @@
 namespace StuRaBtu\Oidc;
 
 use Filament\Http\Responses\Auth\Contracts\LogoutResponse as LogoutResponseContract;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use SocialiteProviders\Manager\SocialiteWasCalled;
 use StuRaBtu\Oidc\Http\Responses\LogoutResponse;
 
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Http\Request;
-
 class OidcServiceProvider extends ServiceProvider
 {
+    public function register()
+    {
+        $this->mergeConfigFrom(__DIR__.'/../config/oidc.php', 'oidc');
+    }
+
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__.'/../routes/oidc.php');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'oidc');
-        $this->loadTranslationsFrom(__DIR__.'/../lang/oidc.php', 'oidc');
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'oidc');
+
+        $this->publishes([
+            __DIR__.'/../config/oidc.php' => config_path('oidc.php'),
+        ], 'oidc-config');
 
         /** Register OIDC Socialite Provider */
         Event::listen(function (SocialiteWasCalled $socialite) {
