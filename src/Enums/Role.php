@@ -4,6 +4,9 @@ namespace StuRaBtu\Oidc\Enums;
 
 enum Role: string
 {
+    // Global
+    case GLOBAL_ADMIN ='stura-global::admin';
+
     // Wiki
     case WIKI_ACCESS = 'stura-wiki::access';
     case WIKI_ADMIN = 'stura-wiki::admin';

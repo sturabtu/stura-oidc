@@ -45,6 +45,7 @@ abstract class OidcUser extends Authenticatable implements FilamentUser
             'entitlements' => AsCollection::class,
             'groups' => AsCollection::class,
             'roles' => AsRolesCollection::class,
+            'password' => 'hashed',
         ];
     }
 
