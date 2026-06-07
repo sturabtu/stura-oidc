@@ -86,7 +86,7 @@ class OidcAttributes
 
     /**
      * Converts all groups and parent groups into a flatten array of groups
-     * 
+     *
      * @return string[]
      */
     public function asGroups(string $attribute): array
@@ -98,7 +98,7 @@ class OidcAttributes
         }
 
         return collect($value)
-            ->map(fn(string $group): array => mb_split('/', trim($group, '/')))
+            ->map(fn (string $group): array => mb_split('/', trim($group, '/')))
             ->flatten()
             ->values()
             ->all();
@@ -106,8 +106,8 @@ class OidcAttributes
 
     /**
      * Converts all groups and parent groups into a flatten array of groups
-     * 
-     * @return \StuRaBtu\Oidc\Enums\Role[]
+     *
+     * @return Role[]
      */
     public function asRoles(string $attribute): array
     {
@@ -118,7 +118,7 @@ class OidcAttributes
         }
 
         return collect($value)
-            ->map(fn(string $role): Role => Role::tryFrom($role))
+            ->map(fn (string $role): Role => Role::tryFrom($role))
             ->filter()
             ->values()
             ->all();

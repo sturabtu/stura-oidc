@@ -3,14 +3,14 @@
 namespace StuRaBtu\Oidc;
 
 use Filament\Http\Responses\Auth\Contracts\LogoutResponse as LogoutResponseContract;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\ServiceProvider;
-use SocialiteProviders\Manager\SocialiteWasCalled;
-use StuRaBtu\Oidc\Http\Responses\LogoutResponse;
-
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\ServiceProvider;
+use SocialiteProviders\Manager\SocialiteWasCalled;
+use SocialiteProviders\OIDC\Provider;
+use StuRaBtu\Oidc\Http\Responses\LogoutResponse;
 
 class OidcServiceProvider extends ServiceProvider
 {
@@ -22,7 +22,7 @@ class OidcServiceProvider extends ServiceProvider
 
         /** Register OIDC Socialite Provider */
         Event::listen(function (SocialiteWasCalled $socialite) {
-            $socialite->extendSocialite('oidc', \SocialiteProviders\OIDC\Provider::class);
+            $socialite->extendSocialite('oidc', Provider::class);
         });
 
         if (interface_exists(LogoutResponseContract::class)) {
