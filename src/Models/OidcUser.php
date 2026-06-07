@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace StuRaBtu\Oidc\Models;
 
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Casts\AsCollection;

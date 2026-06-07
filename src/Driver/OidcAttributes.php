@@ -118,7 +118,7 @@ class OidcAttributes
         }
 
         return collect($value)
-            ->map(fn (string $role): Role => Role::tryFrom($role))
+            ->map(fn (string $role): ?Role => Role::tryFrom($role))
             ->filter()
             ->values()
             ->all();
