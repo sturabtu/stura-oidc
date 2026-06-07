@@ -3,6 +3,7 @@
 namespace StuRaBtu\Oidc\Driver;
 
 use App\Models\User;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -42,6 +43,13 @@ class Oidc
         }
 
         $user->fill($attributes);
+
+        if (! $user->canAccessApplication) {
+            throw new HttpResponseException(
+                redirect()->route('login', ['error' => 'no_access'])
+            );
+        }
+
         $user->save();
 
         return $user;

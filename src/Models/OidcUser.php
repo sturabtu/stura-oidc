@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use StuRaBtu\Oidc\Casts\AsRolesCollection;
+use StuRaBtu\Oidc\Enums\Role;
 
 abstract class OidcUser extends Authenticatable implements FilamentUser
 {
@@ -44,7 +45,20 @@ abstract class OidcUser extends Authenticatable implements FilamentUser
     /**
      * @return Attribute<bool,never>
      */
-    abstract protected function isAdmin(): Attribute;
+    protected function isAdmin(): Attribute
+    {
+        return Attribute::get(
+            fn () => $this->roles->contains(Role::GLOBAL_ADMIN) ?? false,
+        );
+    }
+
+    /**
+     * @return Attribute<bool,never>
+     */
+    protected function canAccessApplication(): Attribute
+    {
+        return Attribute::get(fn () => $this->isAdmin);
+    }
 
     /**
      * Get the user's entitlements.

@@ -11,4 +11,14 @@ return [
         'login' => 'Erneut versuchen // Try again',
     ],
 
+    'login' => [
+        'title' => 'Anmelden',
+
+        'description_de' => 'Bitte melde dich mit deinem BTU Account an.',
+
+        'action' => 'Mit BTU Account anmelden',
+
+        'no_access' => 'Du hast keinen Zugriff auf diese Anwendung.'
+    ],
+
 ];

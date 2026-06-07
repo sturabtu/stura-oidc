@@ -30,11 +30,11 @@
 
                 <main class="p-6 border-t border-gray-200">
                     <h1 class="text-xl font-semibold">
-                        {{ __('stura.login.title') }}
+                        {{ __('oidc::login.title') }}
                     </h1>
                 
                     <p class="mt-6">
-                        {{ __('stura.login.description') }}
+                        {{ __('oidc::login.description') }}
                     </p>
                 
                     <p class="mt-6">
@@ -42,9 +42,25 @@
                             href="{{ route('auth.oidc.redirect') }}"
                             class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         >
-                            {{ __('stura.login.action') }} &rightarrow;
+                            {{ __('oidc::login.action') }} &rightarrow;
                         </a>
                     </p>
+
+                    @if(Request::query('error') === 'no_access')
+                    <div class="mt-6 rounded-md bg-red-50 p-4">
+                        <div class="flex">
+                            <div class="shrink-0">
+                                <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 text-red-400">
+                                    <path d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z" clip-rule="evenodd" fill-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-red-800">{{ __('oidc::login.no_access') }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+
                 </main>
             </div>
         </div>
