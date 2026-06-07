@@ -98,8 +98,7 @@ class OidcAttributes
         }
 
         return collect($value)
-            ->map(fn (string $group): array => mb_split('/', trim($group, '/')))
-            ->flatten()
+            ->map(fn (string $group): string => Str::after($group, '/'))
             ->values()
             ->all();
     }
