@@ -4,6 +4,8 @@ namespace StuRaBtu\Oidc\Driver;
 
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use SocialiteProviders\OIDC\Provider as OidcProvider;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
@@ -34,6 +36,10 @@ class Oidc
         $attributes = static::attributes()->all();
 
         $user = User::where('btu_id', $attributes['btu_id'])->first() ?? new User;
+
+        if ($user->password === null) {
+            $attributes['password'] = Hash::make(Str::password());
+        }
 
         $user->fill($attributes);
         $user->save();

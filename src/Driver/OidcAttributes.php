@@ -2,10 +2,9 @@
 
 namespace StuRaBtu\Oidc\Driver;
 
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-use LightSaml\Model\Assertion\Attribute;
+use StuRaBtu\Oidc\Enums\Role;
 
 class OidcAttributes
 {
@@ -34,9 +33,8 @@ class OidcAttributes
             'btu_id' => $this->asBtuIdentifier('preferred_username'),
             'name' => $this->asString('name'),
             'email' => $this->asString('email'),
-            'groups' => $groups = $this->asGroups('groups'),
-            'roles' => $this->asArray('roles') ?? [],
-            'is_admin' => in_array('Admin', $groups),
+            'groups' => $this->asGroups('groups'),
+            'roles' => $this->asRoles('roles'),
         ];
     }
 
@@ -102,6 +100,26 @@ class OidcAttributes
         return collect($value)
             ->map(fn(string $group): array => mb_split('/', trim($group, '/')))
             ->flatten()
+            ->values()
+            ->all();
+    }
+
+    /**
+     * Converts all groups and parent groups into a flatten array of groups
+     * 
+     * @return \StuRaBtu\Oidc\Enums\Role[]
+     */
+    public function asRoles(string $attribute): array
+    {
+        $value = $this->asArray($attribute);
+
+        if ($value === null || ! is_array($value) || count($value) === 0) {
+            return [];
+        }
+
+        return collect($value)
+            ->map(fn(string $role): Role => Role::tryFrom($role))
+            ->filter()
             ->values()
             ->all();
     }
