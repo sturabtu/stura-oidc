@@ -16,5 +16,5 @@ return [
     // If not provided, the key will be fetched from the OIDC provider's JWKS endpoint
     'jwt_public_key' => env('OIDC_JWT_PUBLIC_KEY'),
 
-    // 'scopes' => 'groups roles',
+    // 'scopes' => ['groups', 'roles'],
 ];
