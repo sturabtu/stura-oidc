@@ -19,6 +19,14 @@ use Throwable;
 class OidcController
 {
     /**
+     * Show a custom login page with a button to redirect to the OIDC authentication page.
+     */
+    public function login(): View
+    {
+        return view('oidc::login');
+    }
+
+    /**
      * Redirect the user to the OIDC authentication page.
      */
     public function redirect(Request $request): RedirectResponse|SymfonyRedirectResponse

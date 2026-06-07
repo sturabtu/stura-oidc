@@ -19,6 +19,8 @@ Route::middleware('web')->group(function () {
 
     });
 
-    Route::redirect('/login', '/auth/oidc/redirect')
-        ->name('login');
+    Route::name('login')->middleware('guest')->get(
+        '/login',
+        [OidcController::class, 'login'],
+    );
 });
