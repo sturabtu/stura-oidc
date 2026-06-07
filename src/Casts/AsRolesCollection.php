@@ -16,11 +16,11 @@ class AsRolesCollection implements CastsAttributes
      */
     public function get(Model $model, string $key, mixed $value, array $attributes): mixed
     {
-        if ($value === null) {
+        if ($value === null || $value === '' || $value === '[]') {
             return collect();
         }
 
-        return collect($value)
+        return collect(json_decode($value, true))
             ->map(fn (string $role) => Role::tryFrom($role))
             ->filter()
             ->values();
@@ -38,6 +38,6 @@ class AsRolesCollection implements CastsAttributes
             ->filter()
             ->map(fn (Role $role) => $role->value)
             ->values()
-            ->all();
+            ->toJson();
     }
 }
